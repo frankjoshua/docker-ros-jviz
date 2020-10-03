@@ -4,10 +4,6 @@ dist: xenial
 env:
   global:
     - DOCKER_CONTAINER=frankjoshua/ros-jviz
-  matrix:
-    - DOCKER_ARCH: 'linux/arm/v7'
-    - DOCKER_ARCH: 'linux/arm64/v8'
-    - DOCKER_ARCH: 'linux/amd64'
 
 before_install:
   - curl -fsSL https://get.docker.com | sh
@@ -19,6 +15,6 @@ before_install:
 script:
   - while sleep 15s; do echo "=====[ $SECONDS seconds, buildroot still building... ]====="; done &
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - time ./build.sh -t $DOCKER_CONTAINER -a $DOCKER_ARCH -q -p
+  - time ./build.sh -t $DOCKER_CONTAINER -q -p
   # Killing background sleep loop
   - kill %1
