@@ -8,13 +8,16 @@ usage() {
     echo "Usage: $0 -t <DOCKER_TAG> -a <ARCHITECTURE> [-p Push]" 1>&2; exit 1; 
 }
 ARCHITECTURE="linux/arm/v7,linux/arm64/v8,linux/amd64"
-while getopts ":a:t:p" o; do
+while getopts ":a:t:pq" o; do
     case "${o}" in
         t)
             TAG=${OPTARG}
             ;;
         p)
             PUSH="--push"
+            ;;
+        q)
+            QUIET="2> /dev/null"
             ;;
         a)
             ARCHITECTURE=${OPTARG}
@@ -36,7 +39,7 @@ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 # Create builder for docker
 BUILDER=$(docker buildx create --use)
 # Build container on all achitectures in parallel and push to Docker Hub
-eval "docker buildx build $PUSH -t $TAG --platform $ARCHITECTURE . 2> /dev/null"
+eval "docker buildx build $PUSH -t $TAG --platform $ARCHITECTURE . $QUIET"
 # Clean up and return error code for CI system if needed
 ERROR_CODE=$?
 docker buildx rm $BUILDER

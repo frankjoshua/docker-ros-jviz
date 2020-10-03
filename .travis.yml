@@ -17,5 +17,8 @@ before_install:
   - sudo service docker start
 
 script:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
-    ./build.sh -t $DOCKER_CONTAINER -a $DOCKER_ARCH;
+  - while sleep 15s; do echo "=====[ $SECONDS seconds, buildroot still building... ]====="; done &
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - time ./build.sh -t $DOCKER_CONTAINER -a $DOCKER_ARCH -q
+  # Killing background sleep loop
+  - kill %1
