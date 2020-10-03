@@ -19,6 +19,6 @@ before_install:
 script:
   - while sleep 15s; do echo "=====[ $SECONDS seconds, buildroot still building... ]====="; done &
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - time ./build.sh -t $DOCKER_CONTAINER -a $DOCKER_ARCH -q
+  - time ./build.sh -t $DOCKER_CONTAINER -a $DOCKER_ARCH -q -p
   # Killing background sleep loop
   - kill %1
