@@ -5,16 +5,19 @@ echo "Docker must have experimental features enabled"
 exit 1
 fi
 usage() { 
-    echo "Usage: $0 [-t <DOCKER_TAG>] [-q Quiet and Push]" 1>&2; exit 1; 
+    echo "Usage: $0 -t <DOCKER_TAG> -a <ARCHITECTURE> [-p Push]" 1>&2; exit 1; 
 }
-while getopts ":t:q" o; do
+ARCHITECTURE="linux/arm/v7,linux/arm64/v8,linux/amd64"
+while getopts ":a:t:p" o; do
     case "${o}" in
         t)
             TAG=${OPTARG}
             ;;
-        q)
-            QUIET_MODE="2> /dev/null"
+        p)
             PUSH="--push"
+            ;;
+        a)
+            ARCHITECTURE=${OPTARG}
             ;;
         :)  
             echo "ERROR: Option -$OPTARG requires an argument"
@@ -29,11 +32,11 @@ done
 shift $((OPTIND-1))
 
 # Setup qemu for multiplatform builds
-docker run --rm --privileged multiarch/qemu-user-static --reset -p yes $QUIET_MODE
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 # Create builder for docker
 BUILDER=$(docker buildx create --use)
 # Build container on all achitectures in parallel and push to Docker Hub
-eval "docker buildx build $PUSH -t $TAG --platform linux/arm/v7,linux/arm64/v8,linux/amd64 . $QUIET_MODE"
+eval "docker buildx build $PUSH -t $TAG --platform $ARCHITECTURE ."
 # Clean up and return error code for CI system if needed
 ERROR_CODE=$?
 docker buildx rm $BUILDER

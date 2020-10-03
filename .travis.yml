@@ -4,6 +4,10 @@ dist: xenial
 env:
   global:
     - DOCKER_CONTAINER=frankjoshua/ros-jviz
+  matrix:
+    - DOCKER_ARCH: 'linux/arm/v7'
+    - DOCKER_ARCH: 'linux/arm64/v8'
+    - DOCKER_ARCH: 'linux/amd64'
 
 before_install:
   - curl -fsSL https://get.docker.com | sh
@@ -14,4 +18,4 @@ before_install:
 
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
-    ./build.sh -t $DOCKER_CONTAINER -q;
+    ./build.sh -t $DOCKER_CONTAINER -a $DOCKER_ARCH;
