@@ -18,7 +18,7 @@ Apache 2.0
 
 ## Author Information
 
-Derived on the work by https://github.com/MJohnson459/jviz
+Based on the work by https://github.com/MJohnson459/jviz
 
 Joshua Frank [@frankjoshua77](https://www.twitter.com/@frankjoshua77)
 <br>
