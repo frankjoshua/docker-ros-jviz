@@ -1,4 +1,4 @@
-# ROS jviz in Docker [![](https://img.shields.io/docker/pulls/frankjoshua/ros-jviz)](https://hub.docker.com/r/frankjoshua/ros-master) [![Build Status](https://travis-ci.org/frankjoshua/docker-ros-jviz.svg?branch=master)](https://travis-ci.org/frankjoshua/docker-ros-jviz)
+# ROS jviz in Docker [![](https://img.shields.io/docker/pulls/frankjoshua/ros-jviz)](https://hub.docker.com/r/frankjoshua/ros-jviz) [![CI](https://github.com/frankjoshua/docker-ros-jviz/workflows/CI/badge.svg)](https://github.com/frankjoshua/docker-ros-jviz/actions)
 
 ## Building
 
